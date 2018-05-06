@@ -59,17 +59,25 @@ public final class Query {
             JSONObject baseJSONresponse = new JSONObject(newJSON);
             JSONObject responseObject = baseJSONresponse.getJSONObject("response");
             JSONArray newsArray = responseObject.getJSONArray("results");
-            JSONArray tagsArray = responseObject.getJSONArray("results");
             for (int i = 0; i < newsArray.length(); i++) {
 
                 JSONObject currentNews = newsArray.getJSONObject(i);
 
                 String articleTitle = currentNews.getString("webTitle");
+                if(articleTitle.contains("|")){
+                    String[] arrayString = articleTitle.split("\\|");
+                    articleTitle = arrayString[0].trim(); //
+                }
                 String section = currentNews.getString("sectionName");
                 String url = currentNews.getString("id");
                 String date = currentNews.getString("webPublicationDate");
                 date = formatDate(date);
-                String articleAuthor = currentNews.getString("webTitle");
+                JSONArray tags = currentNews.getJSONArray("tags");
+                String articleAuthor;
+                if(tags.length()!=0) {
+                    JSONObject tagsObject = tags.getJSONObject(0);
+                    articleAuthor = tagsObject.getString("webTitle");
+                } else articleAuthor = "No author, this is just a news";
 
                 NewsClass newEntry = new NewsClass(articleTitle, section,articleAuthor, url, date);
                 newsList.add(newEntry);

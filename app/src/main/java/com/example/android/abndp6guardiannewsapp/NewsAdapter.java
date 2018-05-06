@@ -15,11 +15,6 @@ import java.util.ArrayList;
 
 public class NewsAdapter extends ArrayAdapter<NewsClass> {
 
-    private static final String TITLE_SEPARATOR = "|";
-    String articleTitle;
-    String articleAuthor;
-
-
     public NewsAdapter(Activity context, ArrayList<NewsClass> News) {
         super(context, 0, News);
     }
@@ -27,15 +22,7 @@ public class NewsAdapter extends ArrayAdapter<NewsClass> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         NewsClass news = getItem(position);
-        String title = news.getTitle();
 
-        if (articleTitle.contains(TITLE_SEPARATOR)) {
-            String[] parts = articleTitle.split(TITLE_SEPARATOR);
-            articleTitle = parts[0] + TITLE_SEPARATOR;
-            articleAuthor = parts[1];
-        } else {
-            articleTitle = title;
-        }
 
 
         // Check if the existing view is being reused, otherwise inflate the view
